@@ -61,6 +61,7 @@ export function initDefaultShortcut(lf: LogicFlow, graph: GraphModel) {
   keyboard.on(['cmd + v', 'ctrl + v'], () => {
     if (!keyboardOptions.enabled) return;
     if (graph.textEditElement) return;
+    const { guards } = lf.options;
     if (selected && (selected.nodes || selected.edges)) {
       lf.clearSelectElements();
       const addElements = lf.addElements(selected);
@@ -69,6 +70,9 @@ export function initDefaultShortcut(lf: LogicFlow, graph: GraphModel) {
       addElements.edges.forEach(edge => lf.selectElementById(edge.id, true));
       selected.nodes.forEach(node => translationNodeData(node, TRANSLATION_DISTANCE));
       selected.edges.forEach(edge => translationEdgeData(edge, TRANSLATION_DISTANCE));
+      if (guards && guards.afterClone) { // 新增复制后守卫
+        guards.afterClone(graph.getSelectElements(false))
+      }
     }
     return false;
   });

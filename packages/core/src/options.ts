@@ -123,6 +123,7 @@ export type Definition = {
 
 export interface GuardsTypes {
   beforeClone?: (data: NodeData | GraphConfigData) => boolean;
+  afterClone?: (data: NodeData | GraphConfigData) => any;
   beforeDelete?: (data: NodeData | EdgeData) => boolean;
 }
 
